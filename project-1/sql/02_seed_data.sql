@@ -1,4 +1,12 @@
 -- 02_seed_data.sql (PostgreSQL)
+-- Safe to re-run: clears existing rows first
+TRUNCATE TABLE
+  sets,
+  workout_exercises,
+  workouts,
+  exercises,
+  users
+RESTART IDENTITY CASCADE;
 
 -- USERS (10 rows)
 INSERT INTO users (first_name, last_name, email)
@@ -26,7 +34,7 @@ INSERT INTO exercises (name, muscle_group, equipment) VALUES
 ('Calf Raise', 'Legs', 'Machine'),
 ('Plank', 'Core', 'Bodyweight');
 
--- WORKOUTS (30 rows)
+-- WORKOUTS (30 rows target; insert is conflict-safe)
 -- 3 workouts per user for 10 users, dates spread across 10 days
 INSERT INTO workouts (user_id, workout_date, name, notes)
 SELECT
@@ -40,7 +48,8 @@ SELECT
   'Auto-generated workout'
 FROM users u
 CROSS JOIN generate_series(1,3) w
-ORDER BY u.user_id;
+ORDER BY u.user_id
+ON CONFLICT (user_id, workout_date, name) DO NOTHING;
 
 -- WORKOUT_EXERCISES (~60 rows)
 -- Add 2 exercises to each workout (simple and deterministic)
@@ -71,7 +80,7 @@ SELECT
 FROM workout_exercises we
 CROSS JOIN (VALUES (1), (2), (3)) AS s(set_number);
 
--- PROOF QUERY (use this to screenshot 50+ rows)
+-- Optional: quick proof query (run separately if you want)
 -- SELECT 'users' table_name, COUNT(*) FROM users
 -- UNION ALL SELECT 'exercises', COUNT(*) FROM exercises
 -- UNION ALL SELECT 'workouts', COUNT(*) FROM workouts
