@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Workout Tracker Web Client</title>
+  <link rel="stylesheet" href="/web/styles.css" />
+</head>
+<body>
+  <header class="container">
+    <h1>Workout Tracker Web Client</h1>
+    <p class="muted">
+      This client calls the Project 2 FastAPI service layer. It supports all required GET endpoints for:
+      Users, Exercises, and Workouts.
+    </p>
+    <div class="row">
+      <span class="pill" id="apiBasePill"></span>
+      <button id="btnHealth">Test /health</button>
+      <span id="healthResult" class="muted"></span>
+    </div>
+  </header>
+
+  <main class="container grid">
+
+    <!-- USERS -->
+    <section class="card">
+      <h2>Users</h2>
+      <div class="controls">
+        <button id="btnUsersAll">GET /users</button>
+        <label>
+          user_id
+          <input id="userIdInput" type="number" min="1" placeholder="e.g., 1" />
+        </label>
+        <button id="btnUserById">GET /users/{user_id}</button>
+      </div>
+      <pre id="usersOut" class="output"></pre>
+    </section>
+
+    <!-- EXERCISES -->
+    <section class="card">
+      <h2>Exercises</h2>
+      <div class="controls">
+        <button id="btnExercisesAll">GET /exercises</button>
+        <label>
+          exercise_id
+          <input id="exerciseIdInput" type="number" min="1" placeholder="e.g., 1" />
+        </label>
+        <button id="btnExerciseById">GET /exercises/{exercise_id}</button>
+      </div>
+      <pre id="exercisesOut" class="output"></pre>
+    </section>
+
+    <!-- WORKOUTS -->
+    <section class="card">
+      <h2>Workouts</h2>
+      <div class="controls">
+        <button id="btnWorkoutsAll">GET /workouts</button>
+        <label>
+          workout_id
+          <input id="workoutIdInput" type="number" min="1" placeholder="e.g., 1" />
+        </label>
+        <button id="btnWorkoutById">GET /workouts/{workout_id}</button>
+      </div>
+
+      <div class="controls">
+        <label>
+          user_id (subset)
+          <input id="workoutsByUserIdInput" type="number" min="1" placeholder="e.g., 1" />
+        </label>
+        <button id="btnWorkoutsByUser">GET /users/{user_id}/workouts</button>
+      </div>
+
+      <pre id="workoutsOut" class="output"></pre>
+    </section>
+
+  </main>
+
+  <footer class="container muted">
+    <p>
+      Tip: Use the seeded IDs from your database (Project 1 seed script) or IDs you created in Project 2.
+    </p>
+  </footer>
+
+  <script src="/web/app.js"></script>
+</body>
+</html>

@@ -3,6 +3,9 @@ from fastapi import FastAPI, HTTPException
 from app.services.users_service import UsersService
 from app.services.exercises_service import ExercisesService
 from app.services.workouts_service import WorkoutsService
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+import os
 
 app = FastAPI(title="Workout Tracker Service")
 
@@ -142,6 +145,20 @@ def update_workout(workout_id: int, workout_date: str, name: str, notes: str = "
 @app.delete("/workouts/{workout_id}")
 def delete_workout(workout_id: int):
     return workouts_service.delete_workout(workout_id)
+
+# -------------------
+# Web Client Hosting
+# -------------------
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))  # points to project-1/
+WEB_DIR = os.path.join(BASE_DIR, "web")
+
+# Serve /web as static (index.html, app.js, styles.css)
+app.mount("/web", StaticFiles(directory=WEB_DIR), name="web")
+
+# Optional: make the root show the web client
+@app.get("/")
+def web_root():
+    return FileResponse(os.path.join(WEB_DIR, "index.html"))
 
 
 """
