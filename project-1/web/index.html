@@ -11,8 +11,8 @@
     <div>
       <h1>Workout Tracker Web Client</h1>
       <p class="subtitle">
-        This website connects to the Workout Tracker service layer and lets you view users,
-        exercises, and workouts in a simple, readable format.
+        This website connects to the Workout Tracker service layer and lets you view, create,
+        and update users, exercises, and workouts in a readable format.
       </p>
     </div>
 
@@ -28,18 +28,53 @@
     <section class="card">
       <div class="section-head">
         <h2>Users</h2>
-        <p>View all users or search for one specific user by ID.</p>
+        <p>View users, find a user by ID, create a user, and update a user's email.</p>
       </div>
 
-      <div class="controls">
-        <button id="btnUsersAll">View All Users</button>
-
-        <div class="input-group">
-          <label for="userIdInput">User ID</label>
-          <input id="userIdInput" type="number" min="1" placeholder="Enter a user ID" />
+      <div class="action-group">
+        <h3>Get Users</h3>
+        <div class="controls">
+          <button id="btnUsersAll">View All Users</button>
+          <div class="input-group">
+            <label for="userIdInput">User ID</label>
+            <input id="userIdInput" type="number" min="1" placeholder="Enter a user ID" />
+          </div>
+          <button id="btnUserById">Find User</button>
         </div>
+      </div>
 
-        <button id="btnUserById">Find User</button>
+      <div class="action-group">
+        <h3>Create User</h3>
+        <div class="controls">
+          <div class="input-group">
+            <label for="userFirstName">First Name</label>
+            <input id="userFirstName" type="text" placeholder="First name" />
+          </div>
+          <div class="input-group">
+            <label for="userLastName">Last Name</label>
+            <input id="userLastName" type="text" placeholder="Last name" />
+          </div>
+          <div class="input-group">
+            <label for="userEmail">Email</label>
+            <input id="userEmail" type="email" placeholder="Email address" />
+          </div>
+          <button id="btnCreateUser">Create User</button>
+        </div>
+      </div>
+
+      <div class="action-group">
+        <h3>Update User Email</h3>
+        <div class="controls">
+          <div class="input-group">
+            <label for="userUpdateId">User ID</label>
+            <input id="userUpdateId" type="number" min="1" placeholder="User ID" />
+          </div>
+          <div class="input-group">
+            <label for="userUpdateEmail">New Email</label>
+            <input id="userUpdateEmail" type="email" placeholder="New email address" />
+          </div>
+          <button id="btnUpdateUser">Update Email</button>
+        </div>
       </div>
 
       <div id="usersOut" class="result-box">
@@ -51,18 +86,61 @@
     <section class="card">
       <div class="section-head">
         <h2>Exercises</h2>
-        <p>View all exercises or search for one exercise by ID.</p>
+        <p>View exercises, find one by ID, create an exercise, and update an exercise.</p>
       </div>
 
-      <div class="controls">
-        <button id="btnExercisesAll">View All Exercises</button>
-
-        <div class="input-group">
-          <label for="exerciseIdInput">Exercise ID</label>
-          <input id="exerciseIdInput" type="number" min="1" placeholder="Enter an exercise ID" />
+      <div class="action-group">
+        <h3>Get Exercises</h3>
+        <div class="controls">
+          <button id="btnExercisesAll">View All Exercises</button>
+          <div class="input-group">
+            <label for="exerciseIdInput">Exercise ID</label>
+            <input id="exerciseIdInput" type="number" min="1" placeholder="Enter an exercise ID" />
+          </div>
+          <button id="btnExerciseById">Find Exercise</button>
         </div>
+      </div>
 
-        <button id="btnExerciseById">Find Exercise</button>
+      <div class="action-group">
+        <h3>Create Exercise</h3>
+        <div class="controls">
+          <div class="input-group">
+            <label for="exerciseName">Name</label>
+            <input id="exerciseName" type="text" placeholder="Exercise name" />
+          </div>
+          <div class="input-group">
+            <label for="exerciseMuscleGroup">Muscle Group</label>
+            <input id="exerciseMuscleGroup" type="text" placeholder="Muscle group" />
+          </div>
+          <div class="input-group">
+            <label for="exerciseEquipment">Equipment</label>
+            <input id="exerciseEquipment" type="text" placeholder="Equipment" />
+          </div>
+          <button id="btnCreateExercise">Create Exercise</button>
+        </div>
+      </div>
+
+      <div class="action-group">
+        <h3>Update Exercise</h3>
+        <div class="controls">
+          <div class="input-group">
+            <label for="exerciseUpdateId">Exercise ID</label>
+            <input id="exerciseUpdateId" type="number" min="1" placeholder="Exercise ID" />
+          </div>
+          <div class="input-group">
+            <label for="exerciseUpdateName">Name</label>
+            <input id="exerciseUpdateName" type="text" placeholder="Updated name" />
+          </div>
+          <div class="input-group">
+            <label for="exerciseUpdateMuscleGroup">Muscle Group</label>
+            <input id="exerciseUpdateMuscleGroup" type="text" placeholder="Updated muscle group" />
+          </div>
+          <div class="input-group">
+            <label for="exerciseUpdateEquipment">Equipment</label>
+            <input id="exerciseUpdateEquipment" type="text" placeholder="Updated equipment" />
+          </div>
+          <button id="btnUpdateExercise">Update Exercise</button>
+        </div>
       </div>
 
       <div id="exercisesOut" class="result-box">
@@ -74,27 +152,73 @@
     <section class="card full-width">
       <div class="section-head">
         <h2>Workouts</h2>
-        <p>View all workouts, search for one workout, or view workouts for a specific user.</p>
+        <p>View all workouts, find one by ID, view workouts for a user, create a workout, and update a workout.</p>
       </div>
 
-      <div class="controls">
-        <button id="btnWorkoutsAll">View All Workouts</button>
-
-        <div class="input-group">
-          <label for="workoutIdInput">Workout ID</label>
-          <input id="workoutIdInput" type="number" min="1" placeholder="Enter a workout ID" />
+      <div class="action-group">
+        <h3>Get Workouts</h3>
+        <div class="controls">
+          <button id="btnWorkoutsAll">View All Workouts</button>
+          <div class="input-group">
+            <label for="workoutIdInput">Workout ID</label>
+            <input id="workoutIdInput" type="number" min="1" placeholder="Enter a workout ID" />
+          </div>
+          <button id="btnWorkoutById">Find Workout</button>
         </div>
 
-        <button id="btnWorkoutById">Find Workout</button>
+        <div class="controls">
+          <div class="input-group">
+            <label for="workoutsByUserIdInput">User ID (Workout Subset)</label>
+            <input id="workoutsByUserIdInput" type="number" min="1" placeholder="Enter a user ID" />
+          </div>
+          <button id="btnWorkoutsByUser">View Workouts for User</button>
+        </div>
       </div>
 
-      <div class="controls">
-        <div class="input-group">
-          <label for="workoutsByUserIdInput">User ID (Workout Subset)</label>
-          <input id="workoutsByUserIdInput" type="number" min="1" placeholder="Enter a user ID" />
+      <div class="action-group">
+        <h3>Create Workout</h3>
+        <div class="controls">
+          <div class="input-group">
+            <label for="workoutCreateUserId">User ID</label>
+            <input id="workoutCreateUserId" type="number" min="1" placeholder="User ID" />
+          </div>
+          <div class="input-group">
+            <label for="workoutCreateDate">Workout Date</label>
+            <input id="workoutCreateDate" type="date" />
+          </div>
+          <div class="input-group">
+            <label for="workoutCreateName">Workout Name</label>
+            <input id="workoutCreateName" type="text" placeholder="Workout name" />
+          </div>
+          <div class="input-group">
+            <label for="workoutCreateNotes">Notes</label>
+            <input id="workoutCreateNotes" type="text" placeholder="Notes" />
+          </div>
+          <button id="btnCreateWorkout">Create Workout</button>
         </div>
+      </div>
 
-        <button id="btnWorkoutsByUser">View Workouts for User</button>
+      <div class="action-group">
+        <h3>Update Workout</h3>
+        <div class="controls">
+          <div class="input-group">
+            <label for="workoutUpdateId">Workout ID</label>
+            <input id="workoutUpdateId" type="number" min="1" placeholder="Workout ID" />
+          </div>
+          <div class="input-group">
+            <label for="workoutUpdateDate">Workout Date</label>
+            <input id="workoutUpdateDate" type="date" />
+          </div>
+          <div class="input-group">
+            <label for="workoutUpdateName">Workout Name</label>
+            <input id="workoutUpdateName" type="text" placeholder="Updated workout name" />
+          </div>
+          <div class="input-group">
+            <label for="workoutUpdateNotes">Notes</label>
+            <input id="workoutUpdateNotes" type="text" placeholder="Updated notes" />
+          </div>
+          <button id="btnUpdateWorkout">Update Workout</button>
+        </div>
       </div>
 
       <div id="workoutsOut" class="result-box">
@@ -105,7 +229,7 @@
 
   <footer class="container footer">
     <p>
-      Tip: Use seeded IDs from Project 1 or IDs created during Project 2 testing.
+      Tip: Use seeded IDs from Project 1 or records you create during testing.
     </p>
   </footer>
 

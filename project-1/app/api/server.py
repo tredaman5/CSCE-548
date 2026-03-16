@@ -1,13 +1,13 @@
 from fastapi import FastAPI, HTTPException
-
-from app.services.users_service import UsersService
-from app.services.exercises_service import ExercisesService
-from app.services.workouts_service import WorkoutsService
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 import os
 
-app = FastAPI(title="Workout Tracker Service")
+from app.services.users_service import UsersService
+from app.services.exercises_service import ExercisesService
+from app.services.workouts_service import WorkoutsService
+
+app = FastAPI(title="Workout Tracker Service Layer")
 
 users_service = UsersService()
 exercises_service = ExercisesService()
@@ -20,7 +20,7 @@ def health():
 
 
 # -------------------
-# USERS (service layer)
+# USERS
 # -------------------
 
 @app.post("/users")
@@ -29,6 +29,8 @@ def create_user(first_name: str, last_name: str, email: str):
         return users_service.create_user(first_name, last_name, email)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.get("/users/{user_id}")
@@ -53,6 +55,8 @@ def update_user_email(user_id: int, new_email: str):
         return user
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.delete("/users/{user_id}")
@@ -60,9 +64,9 @@ def delete_user(user_id: int):
     return users_service.delete_user(user_id)
 
 
-# ----------------------
-# EXERCISES (service layer)
-# ----------------------
+# -------------------
+# EXERCISES
+# -------------------
 
 @app.get("/exercises")
 def list_exercises(limit: int = 100):
@@ -83,6 +87,8 @@ def create_exercise(name: str, muscle_group: str, equipment: str):
         return exercises_service.create_exercise(name, muscle_group, equipment)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.put("/exercises/{exercise_id}")
@@ -94,6 +100,8 @@ def update_exercise(exercise_id: int, name: str, muscle_group: str, equipment: s
         return ex
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.delete("/exercises/{exercise_id}")
@@ -101,9 +109,9 @@ def delete_exercise(exercise_id: int):
     return exercises_service.delete_exercise(exercise_id)
 
 
-# ---------------------
-# WORKOUTS (service layer)
-# ---------------------
+# -------------------
+# WORKOUTS
+# -------------------
 
 @app.get("/workouts")
 def list_workouts(limit: int = 100):
@@ -129,6 +137,8 @@ def create_workout(user_id: int, workout_date: str, name: str, notes: str = ""):
         return workouts_service.create_workout(user_id, workout_date, name, notes)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.put("/workouts/{workout_id}")
@@ -140,35 +150,26 @@ def update_workout(workout_id: int, workout_date: str, name: str, notes: str = "
         return w
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.delete("/workouts/{workout_id}")
 def delete_workout(workout_id: int):
     return workouts_service.delete_workout(workout_id)
 
+
 # -------------------
-# Web Client Hosting
+# WEB CLIENT HOSTING
 # -------------------
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))  # points to project-1/
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 WEB_DIR = os.path.join(BASE_DIR, "web")
 
-# Serve /web as static (index.html, app.js, styles.css)
 app.mount("/web", StaticFiles(directory=WEB_DIR), name="web")
 
-# Optional: make the root show the web client
+
 @app.get("/")
 def web_root():
     return FileResponse(os.path.join(WEB_DIR, "index.html"))
 
-
-"""
-HOSTING NOTE (Render example):
-- Create a new Web Service connected to your GitHub repo.
-- Build command:
-    pip install -r requirements.txt
-- Start command:
-    uvicorn app.api.server:app --host 0.0.0.0 --port 10000
-- Render sets PORT automatically sometimes; if needed you can use --port $PORT
-  (Render docs vary by template). If your instance provides $PORT, use:
-    uvicorn app.api.server:app --host 0.0.0.0 --port $PORT
-"""
